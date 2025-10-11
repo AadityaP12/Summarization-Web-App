@@ -19,7 +19,7 @@ function Summarize(){
       setError("");
       setIsLoading(true);
 
-    const response= await fetch("http://localhost:5000/api/v1/summarize",{
+    const response= await fetch("http://localhost:5000/api/v2/summarize",{
 
       method: "POST",
       headers: {

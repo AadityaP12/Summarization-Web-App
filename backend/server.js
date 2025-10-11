@@ -25,7 +25,7 @@ connectDB();
 
 //define base URL
 
-app.use("/api/v1",summarizeRoutes);
+app.use("/api/v2",summarizeRoutes);
 
 
 //start the server

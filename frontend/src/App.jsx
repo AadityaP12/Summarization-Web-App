@@ -1,6 +1,6 @@
 import LoginPage from "./components/Login";
 import Welcome from "./components/WelcomePage";
-import Summarize from "./components/SummarizePage";
+import Summarize from "./components/Summarize";
 import { useState } from "react";
 
 function App(){

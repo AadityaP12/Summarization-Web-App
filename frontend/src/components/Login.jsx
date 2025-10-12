@@ -30,7 +30,12 @@ function LoginPage({onSuccess, userInfo, updateInfo}){
     const handleSubmit=(e)=>{
 
         e.preventDefault();
-        onSuccess();
+        if(username && password){
+            onSuccess();
+        }
+        else{
+            alert("please fill in all fields!");
+        }
 
         
         

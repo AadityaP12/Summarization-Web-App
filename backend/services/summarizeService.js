@@ -30,7 +30,7 @@ export const generateSummary=async (finalText)=>{
     try {
         
 
-    const response= await fetch("https://api-inference.huggingface.co/models/facebook/bart-large-cnn",{
+    const response= await fetch("https://router.huggingface.co/hf-inference/models/facebook/bart-large-cnn",{
 
         method:"POST",
         headers:{

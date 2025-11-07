@@ -23,7 +23,7 @@ function Welcome({onStart,userName}){
         setShowHistory(true);
         try {
 
-            const fetchHistory= await fetch("http://localhost:5000/api/v2/history");
+            const fetchHistory= await fetch("http://localhost:5000/api/v2.5/history");
 
             console.log("fetchHistory [RAW]: ", fetchHistory);
 

@@ -24,7 +24,7 @@ const summarizeController= async (req,res)=>{
 
     if(!summary){
 
-        return res.status(500).json({error: "Failed to generate summary"});
+        return res.status(500).json({error: "Failed to generate summary ❌"});
     }
 
     

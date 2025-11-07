@@ -19,7 +19,8 @@ const summarySchema= new mongoose.Schema({
     generated_at: {
 
         type: Date,
-        default: Date.now()}
+        default: Date.now
+    }
 
 });
 

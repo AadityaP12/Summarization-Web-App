@@ -2,6 +2,7 @@ import LoginPage from "./components/Login";
 import Welcome from "./components/WelcomePage";
 import Summarize from "./components/Summarize";
 import { useState } from "react";
+import './App.css'
 
 function App(){
 

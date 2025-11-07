@@ -61,7 +61,10 @@ function LoginPage({onSuccess, userInfo, updateInfo}){
                 required={true}
                 value={username}
                 onChange={handleChange}
+                className="username"
                 />
+                <br/>
+                <br/>
                 <input
                 type="password"
                 name="password"
@@ -69,9 +72,13 @@ function LoginPage({onSuccess, userInfo, updateInfo}){
                 required={true}
                 value={password}
                 onChange={handleChange}
+                className="password"
                 />
+                <br/>
+                <br/>
                 <button type="submit">Login</button>
             </form>
+            <br/>
             <form onSubmit={handleGoogle}>
                 <button type="submit">Sign in with Google</button>
             </form>

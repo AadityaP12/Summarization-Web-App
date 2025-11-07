@@ -78,6 +78,9 @@ function Summarize(){
       onChange={(e)=> setPolicyText(e.target.value)}      
       />
 
+      <br/>
+      <br/>
+
 
       <button onClick={handleSubmit} style={{margin:"auto"}}>Simplify</button>
 

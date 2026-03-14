@@ -1,83 +1,93 @@
 import summaryModel from "../models/summaryModel.js";
 import fetch from "node-fetch";
 
-export const preprocessText= (policyText)=> {
+class SummmarizeService {
 
-    const cleanedText=policyText.trim().replace(/\s+/g,' ');
+    constructor(){
 
-    const maxLength=4500;
+        this.maxLength=4500;
+        this.timeout=30000;
+        this.apiURL="https://router.huggingface.co/hf-inference/models/facebook/bart-large-cnn";
+        this.apiKey=process.env.API_KEY;
 
-    const truncatedText= cleanedText.slice(0,maxLength);
-
-    return truncatedText;
-
-}
+    }
 
 
-export const generateSummary=async (finalText)=>{
+    preprocessText(inputText) {
 
-    const apiKey= process.env.API_KEY;
+        const cleanedText=inputText.trim().replace(/\s+/g,' ');
 
-    const abortController= new AbortController();
-    const signal= abortController.signal;
+        const truncatedText= cleanedText.slice(0,this.maxLength);
 
-    const timeout= setTimeout(() => {
-        
-        abortController.abort();
-                
-    }, 30000);
+        return truncatedText;
 
-    try {
-        
+    }
 
-    const response= await fetch("https://router.huggingface.co/hf-inference/models/facebook/bart-large-cnn",{
 
-        method:"POST",
-        headers:{
-            Authorization: `Bearer ${apiKey}`,
-            "Content-Type": "application/json"
-        },
+    async generateSummary(finalText) {
 
-        body: JSON.stringify({inputs: finalText}),
-        signal
-    });
+        const abortController= new AbortController();
+        const signal= abortController.signal;
 
-    clearTimeout(timeout);
+        const timeout= setTimeout(() => {
+            
+            abortController.abort();
+                    
+        }, this.timeout);
 
-    
-    const data= await response.json();
+        try {
+            
 
-    console.log(`API returned data: ${JSON.stringify(data)}`);
-    
-    const summary=data[0]?.summary_text;
+        const response= await fetch(this.apiURL,{
 
-    return summary;
-        
-    } catch (error) {
+            method:"POST",
+            headers:{
+                Authorization: `Bearer ${this.apiKey}`,
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({inputs: finalText}),
+            signal
+        });
+
         clearTimeout(timeout);
-        console.error("error generating summary: ",error);
-        throw error;
+
+        
+        const data= await response.json();
+
+        console.log(`API returned data: ${JSON.stringify(data)}`);
+        
+        const summary=data[0]?.summary_text;
+
+        return summary;
+            
+        } catch (error) {
+            clearTimeout(timeout);
+            console.error("error generating summary: ",error);
+            throw error;
+        }
+
     }
 
-}
 
+    async saveSummary (finalText,summary) {
 
-export const saveSummary=async (finalText,summary)=>{
+        try {
 
-    try {
+            console.log('attempting to save summary in database...');
 
-        console.log('attempting to save summary in database...');
+            const storeSummary= new summaryModel({input_text: finalText, summary_text: summary, generated_at: new Date()});
+            await storeSummary.save();
+            console.log("saved.");
+            
+            
+        } catch (error) {
 
-        const storeSummary= new summaryModel({policy_text: finalText, summary_text: summary, generated_at: new Date()});
-        await storeSummary.save();
-        console.log("saved.");
-        
-        
-    } catch (error) {
-
-        console.error(`Failed to save summary: ${error}`);
-        
+            console.error(`Failed to save summary: ${error}`);
+            
+        }
     }
-}
+    }
 
 
+export default new SummmarizeService();

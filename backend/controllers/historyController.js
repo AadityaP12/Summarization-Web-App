@@ -1,10 +1,10 @@
-import getHistory from "../services/historyService.js";
+import HistoryService from "../services/historyService.js";
 
 const historyController=async (req,res)=>{
 
     try {
 
-        const savedSummaries=await getHistory();
+        const savedSummaries=await HistoryService.getHistory();
         res.status(200).json({savedSummaries});
         
     } catch (error) {

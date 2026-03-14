@@ -1,8 +1,9 @@
 import { useState } from "react";
+import './Summarize.css';
 
 function Summarize(){
 
-  const [policyText, setPolicyText]= useState("");
+  const [text, setText]= useState("");
   const [summary, setSummary]= useState("");
   const [isLoading, setIsLoading]= useState(false);
 
@@ -26,7 +27,7 @@ function Summarize(){
         "Content-Type": "application/json"
       },
 
-      body: JSON.stringify({policyText})
+      body: JSON.stringify({text})
 
     });
 
@@ -66,23 +67,46 @@ function Summarize(){
 
   return(
 
-    <div style={{margin:"auto", fontFamily: "Arial, sans-serif", textAlign: "center"}}>
+    <div className="summarize-container glass-card">
+
+      <h1>Summarize Your Text</h1>
+
       
       <textarea
       
       rows={20}
       cols={80}
       style={{margin: "auto", fontFamily: "Arial, sans-serif", textAlign:"center"}}
-      placeholder="Paste your privacy content here"
-      value={policyText}
-      onChange={(e)=> setPolicyText(e.target.value)}      
+      placeholder="Paste your content here"
+      value={text}
+      onChange={(e)=> setText(e.target.value)} 
+      className="text-input-area"     
       />
 
       <br/>
       <br/>
 
 
-      <button onClick={handleSubmit} style={{margin:"auto"}}>Simplify</button>
+      <button onClick={handleSubmit} className="summarize-button">Simplify</button>
+
+      <div className="loading-spinner">
+          <div className="spinner"></div>
+          <p>Analyzing your text...</p>
+      </div>
+
+      
+      <div className="result-section">
+          <div className="summary-box">
+              <p className="summary-label">Summary:</p>
+              <p className="summary-text">{summary}</p>
+          </div>
+      </div>
+
+      
+      <div className="error-box">
+          <p className="error-label">Error:</p>
+          <p className="error-text">{error}</p>
+      </div>
 
 
       {

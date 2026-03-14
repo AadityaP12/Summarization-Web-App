@@ -1,4 +1,5 @@
 import { useState } from "react";
+import './Login.css';
 
 function LoginPage({onSuccess, userInfo, updateInfo}){
 
@@ -49,11 +50,12 @@ function LoginPage({onSuccess, userInfo, updateInfo}){
 
 
     return(
-        <div>
+        <div className="login-container glass-card">
 
             <h1>Stop Scrolling, Start Understanding.</h1>
+            <br/>
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="login-form">
                 <input
                 type="text"
                 name="username"
@@ -61,10 +63,8 @@ function LoginPage({onSuccess, userInfo, updateInfo}){
                 required={true}
                 value={username}
                 onChange={handleChange}
-                className="username"
+                className="login-input"
                 />
-                <br/>
-                <br/>
                 <input
                 type="password"
                 name="password"
@@ -72,16 +72,17 @@ function LoginPage({onSuccess, userInfo, updateInfo}){
                 required={true}
                 value={password}
                 onChange={handleChange}
-                className="password"
+                className="login-input"
                 />
                 <br/>
-                <br/>
-                <button type="submit">Login</button>
+                <button type="submit" className="login-button">Login</button>
             </form>
             <br/>
-            <form onSubmit={handleGoogle}>
+            {
+                /*<form onSubmit={handleGoogle}>
                 <button type="submit">Sign in with Google</button>
-            </form>
+            </form> */
+            }
         </div>
 
     )

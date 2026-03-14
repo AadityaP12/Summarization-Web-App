@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 
 const summarySchema= new mongoose.Schema({
 
-    policy_text:{
+    input_text:{
         
         type: String,
         required: true 

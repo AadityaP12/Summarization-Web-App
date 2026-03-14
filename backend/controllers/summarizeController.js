@@ -1,26 +1,26 @@
-import {generateSummary,saveSummary,preprocessText} from "../services/summarizeService.js"
+import SummarizeService from "../services/summarizeService.js"
 
 const summarizeController= async (req,res)=>{
 
 
     try {
 
-    const {policyText} =req.body; 
+    const {text} =req.body; 
     
-    if(!policyText){
+    if(!text){
 
         return res.status(400).json({error: "Text is required!"});
     }
     
 
-    const finalText= preprocessText(policyText);
+    const finalText= SummarizeService.preprocessText(text);
 
     if(finalText.trim().split(/\s+/).length < 50){
 
         return res.status(400).json({error:"Text too short."});
     }
 
-    const summary= await generateSummary(finalText);
+    const summary= await SummarizeService.generateSummary(finalText);
 
     if(!summary){
 
@@ -30,7 +30,7 @@ const summarizeController= async (req,res)=>{
     
     res.status(200).json({ summary: summary});
 
-    saveSummary(finalText,summary);
+    SummarizeService.saveSummary(finalText,summary);
 
          
     } catch (error) {

@@ -1,4 +1,5 @@
 import {useState} from "react";
+import './History.css';
 
 function SummaryHistory({historyData}){
 
@@ -14,30 +15,37 @@ function SummaryHistory({historyData}){
 
 //i got the array here. but i need to extract it and cleanly map the data for each object, through index.
     return(
-        <div>
-            {
+        <div className="history-container">
+            <h2 className="history-title">Your Summary History</h2>
+            <div className="history-grid">
+                {
                 historyData.map((data, index)=>(
-                    <div key={data._id} style={{outline: "2px solid white", width: "fit-content"}}>
+                    <div key={data._id} className="history-card">
                         <br></br>
-                        <div style={{width: "fit-content"}}>
-                            <h4 style={{textAlign: "left"}}>EVENT DATE</h4>
-                            {data?.generated_at}
+
+                        <div className="history-date">
+                            
+                            {new Date(data?.generated_at).toLocaleDateString()}
                         </div>
+
                         <br></br>
                         <br></br>
-                        <div style={{outline: "2px solid white", width: "fit-content"}}>
-                            <h4 style={{textAlign: "left"}}>REQUEST</h4>
-                            {data?.policy_text}
+
+                        <div>
+                            <h4 className="history-section-title">Original Text</h4>
+                            <div className="history-request">{data?.input_text}</div>
                         </div>
-                        <div style={{outline: "2px solid white", width: "fit-content"}}>
-                            <h4 style={{textAlign: "left"}}>RESPONSE</h4>
-                            {data?.summary_text}
+
+                        <div>
+                            <h4 className="history-section-title">Summary</h4>
+                            <div className="history-response">{data?.summary_text}</div>
                         </div>
                         
                     </div>
                 ))
             }
 
+            </div>
         </div>
     )
 }

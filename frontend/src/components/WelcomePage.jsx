@@ -1,5 +1,6 @@
 import { useState } from "react";
 import SummaryHistory from "./History";
+import './WelcomePage.css';
 
 function Welcome({onStart,userName}){
 
@@ -25,15 +26,14 @@ function Welcome({onStart,userName}){
 
             const fetchHistory= await fetch("http://localhost:5000/api/v2.5/history");
 
-            console.log("fetchHistory [RAW]: ", fetchHistory);
-
+            
             const data= await fetchHistory.json();
             console.log("type of history data: ", typeof(data));
             console.log(`history data [RAW]: ${JSON.stringify(data, null, 2)}`);
 
-            const firstKey=Object.keys(data)[0];
-            console.log("first key: ", firstKey);
-            const summaryData=data[firstKey];
+            //const firstKey=Object.keys(data)[0];
+           
+            const summaryData=data.savedSummaries;
             console.log("extracted summary data: ", summaryData);
             console.log("type of summary data: ", typeof(summaryData));  
             
@@ -58,18 +58,16 @@ function Welcome({onStart,userName}){
 
     return(
 
-        <div>
+        <div className="welcome-container glass-card">
             {
                 showWelcome===true && (
 
                     <>
-                        <h1>Welcome {userName}!</h1>
-                        <h2>Get a clear summary of any privacy policy instantly.</h2>
-                        <div>
-                            <button onClick={handleSubmit}>Get Started</button>
-                            <br/>
-                            <br/>
-                            <button onClick={getHistory}>Show History</button>
+                        <h1 className="welcome-title">Welcome {userName}!</h1>
+                        <h2 className="welcome-subtitle">Get a clear summary of your queries instantly.</h2>
+                        <div className="button-group">
+                            <button onClick={handleSubmit} className="primary-button">Get Started</button>
+                            <button onClick={getHistory} className="secondary-button">Show History</button>
                         </div>
                     </>
                 )

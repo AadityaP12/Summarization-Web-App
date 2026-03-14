@@ -28,7 +28,7 @@ function App(){
 
   return(
 
-    <div>                                    
+    <div className="app-container">                                    
       {currentState==="login" && <LoginPage onSuccess={handleLogin} userInfo={userInfo} updateInfo={setUserInfo}/>}
       {currentState==="welcome" && <Welcome onStart={handleWelcome} userName={username}/>}
       {currentState==="summarize" && <Summarize/>}

@@ -4,7 +4,10 @@ node_modules/
 
 #secrets
 .env
+serviceAccountKey.json
 
 #logs
 
 *.log
+
+dist

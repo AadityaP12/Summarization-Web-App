@@ -1,14 +1,13 @@
 import summaryModel from "../models/summaryModel.js";
 import fetch from "node-fetch";
 
-class SummmarizeService {
+class SummarizeService {
 
     constructor(){
 
         this.maxLength=4500;
-        this.timeout=30000;
+        this.timeout=60000;
         this.apiURL="https://router.huggingface.co/hf-inference/models/facebook/bart-large-cnn";
-        this.apiKey=process.env.API_KEY;
 
     }
 
@@ -26,6 +25,8 @@ class SummmarizeService {
 
     async generateSummary(finalText) {
 
+        const apiKey=process.env.API_KEY;
+        
         const abortController= new AbortController();
         const signal= abortController.signal;
 
@@ -42,11 +43,14 @@ class SummmarizeService {
 
             method:"POST",
             headers:{
-                Authorization: `Bearer ${this.apiKey}`,
+                Authorization: `Bearer ${apiKey}`,
                 "Content-Type": "application/json"
             },
 
-            body: JSON.stringify({inputs: finalText}),
+            body: JSON.stringify({
+                inputs: finalText,
+                options: {wait_for_model:true}
+            }),
             signal
         });
 
@@ -54,8 +58,6 @@ class SummmarizeService {
 
         
         const data= await response.json();
-
-        console.log(`API returned data: ${JSON.stringify(data)}`);
         
         const summary=data[0]?.summary_text;
 
@@ -63,7 +65,6 @@ class SummmarizeService {
             
         } catch (error) {
             clearTimeout(timeout);
-            console.error("error generating summary: ",error);
             throw error;
         }
 
@@ -74,20 +75,18 @@ class SummmarizeService {
 
         try {
 
-            console.log('attempting to save summary in database...');
 
             const storeSummary= new summaryModel({input_text: finalText, summary_text: summary, generated_at: new Date()});
             await storeSummary.save();
-            console.log("saved.");
             
             
         } catch (error) {
 
-            console.error(`Failed to save summary: ${error}`);
+            // save failed silently -> non-critical
             
         }
     }
     }
 
 
-export default new SummmarizeService();
+export default new SummarizeService();

@@ -10,6 +10,8 @@ function Welcome({onStart,userName}){
     const [historyData, setHistoryData]=useState([]);
     const [showWelcome, setShowWelcome]= useState(true);
 
+    const BASE_URL=import.meta.env.VITE_API_URL;
+
 
     const handleSubmit=()=>{
 
@@ -24,18 +26,27 @@ function Welcome({onStart,userName}){
         setShowHistory(true);
         try {
 
-            const fetchHistory= await fetch("http://localhost:5000/api/v2.5/history");
+            const token=localStorage.getItem("token");
+            
+            const fetchHistory= await fetch(`${BASE_URL}/history`,{
+
+                method:"GET",
+                headers:{
+                    "Content-Type":"application/json",
+                    "Authorization":`Bearer ${token}`
+                }
+            });
 
             
             const data= await fetchHistory.json();
-            console.log("type of history data: ", typeof(data));
-            console.log(`history data [RAW]: ${JSON.stringify(data, null, 2)}`);
+            //console.log("type of history data: ", typeof(data));
+            //console.log(`history data [RAW]: ${JSON.stringify(data, null, 2)}`);
 
             //const firstKey=Object.keys(data)[0];
            
             const summaryData=data.savedSummaries;
-            console.log("extracted summary data: ", summaryData);
-            console.log("type of summary data: ", typeof(summaryData));  
+            //console.log("extracted summary data: ", summaryData);
+            //console.log("type of summary data: ", typeof(summaryData));  
             
 
             if(fetchHistory.ok){
@@ -58,12 +69,14 @@ function Welcome({onStart,userName}){
 
     return(
 
-        <div className="welcome-container glass-card">
+        <div className="welcome-container">
             {
                 showWelcome===true && (
 
                     <>
-                        <h1 className="welcome-title">Welcome {userName}!</h1>
+                        <h1 className="welcome-title">
+                            Welcome {userName.split("@")[0]}!
+                        </h1>
                         <h2 className="welcome-subtitle">Get a clear summary of your queries instantly.</h2>
                         <div className="button-group">
                             <button onClick={handleSubmit} className="primary-button">Get Started</button>
@@ -73,9 +86,12 @@ function Welcome({onStart,userName}){
                 )
             }
             
-            {isLoading===true && (
-                    <p>Loading...</p>
-                )}
+            {isLoading && (
+            <div className="welcome-loading">
+                <div className="welcome-spinner"></div>
+                <p>Loading history...</p>
+            </div>
+)}
             {showHistory===true && showWelcome===false && <SummaryHistory historyData={historyData}/>}
         </div>
     )

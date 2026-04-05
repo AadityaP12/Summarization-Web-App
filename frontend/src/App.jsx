@@ -9,11 +9,11 @@ function App(){
   const [currentState, setCurrentState]= useState("login");
 
   const [userInfo, setUserInfo]=useState({
-    username:"",
+    email:"",
     password:""
   })
 
-  const {username, password}= userInfo;
+  const {email, password}= userInfo;
 
   const handleLogin= ()=>{
     
@@ -30,7 +30,7 @@ function App(){
 
     <div className="app-container">                                    
       {currentState==="login" && <LoginPage onSuccess={handleLogin} userInfo={userInfo} updateInfo={setUserInfo}/>}
-      {currentState==="welcome" && <Welcome onStart={handleWelcome} userName={username}/>}
+      {currentState==="welcome" && <Welcome onStart={handleWelcome} userName={email}/>}
       {currentState==="summarize" && <Summarize/>}
     </div>
   )

@@ -5,7 +5,7 @@ function SummaryHistory({historyData}){
 
 
 
-    console.log(`gotten history data: ${JSON.stringify(historyData, null, 2)}`);
+    //console.log(`gotten history data: ${JSON.stringify(historyData, null, 2)}`);
 
     const [isLoading, setIsLoading]=useState(false);
 
@@ -35,6 +35,8 @@ function SummaryHistory({historyData}){
                             <h4 className="history-section-title">Original Text</h4>
                             <div className="history-request">{data?.input_text}</div>
                         </div>
+                        <div className="history-divider"></div>
+
 
                         <div>
                             <h4 className="history-section-title">Summary</h4>

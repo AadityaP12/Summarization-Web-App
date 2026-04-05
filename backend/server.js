@@ -23,10 +23,10 @@ const PORT=process.env.PORT || 5000;
 
 connectDB();
 
+
 //define base URL
 
-app.use("/api/v2.5",summarizeRoutes);
-
+app.use("/api/v3",summarizeRoutes);
 
 //start the server
 

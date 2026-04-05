@@ -1,9 +1,6 @@
 import mongoose from "mongoose";
 
 
-//define the schema for the database
-
-
 const summarySchema= new mongoose.Schema({
 
     input_text:{

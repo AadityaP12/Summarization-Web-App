@@ -8,6 +8,8 @@ function Summarize(){
   const [isLoading, setIsLoading]= useState(false);
 
   const [error, setError]= useState("");
+
+  const BASE_URL=import.meta.env.VITE_API_URL;
   
 
   const handleSubmit= async ()=>{
@@ -20,22 +22,26 @@ function Summarize(){
       setError("");
       setIsLoading(true);
 
-    const response= await fetch("http://localhost:5000/api/v2.5/summarize",{
+      const token=localStorage.getItem("token");
+
+      const response= await fetch(`${BASE_URL}/summarize`,{
+      
 
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
 
       body: JSON.stringify({text})
 
     });
 
-    console.log(`Response from API (raw): ${JSON.stringify(response)}`);
+    //console.log(`Response from API (raw): ${JSON.stringify(response)}`);
 
     const data= await response.json();
 
-    console.log(`API data: ${JSON.stringify(data)}`);
+    //console.log(`API data: ${JSON.stringify(data)}`);
      
     if(response.ok){
 
@@ -67,7 +73,7 @@ function Summarize(){
 
   return(
 
-    <div className="summarize-container glass-card">
+    <div className="summarize-container">
 
       <h1>Summarize Your Text</h1>
 
@@ -76,7 +82,6 @@ function Summarize(){
       
       rows={20}
       cols={80}
-      style={{margin: "auto", fontFamily: "Arial, sans-serif", textAlign:"center"}}
       placeholder="Paste your content here"
       value={text}
       onChange={(e)=> setText(e.target.value)} 
@@ -89,54 +94,24 @@ function Summarize(){
 
       <button onClick={handleSubmit} className="summarize-button">Simplify</button>
 
-      <div className="loading-spinner">
-          <div className="spinner"></div>
-          <p>Analyzing your text...</p>
-      </div>
 
-      
-      <div className="result-section">
-          <div className="summary-box">
-              <p className="summary-label">Summary:</p>
-              <p className="summary-text">{summary}</p>
-          </div>
-      </div>
+      {isLoading && (
+    <div className="summarize-loading">
+        <div className="summarize-spinner"></div>
+        <p>Analyzing your text...</p>
+    </div>
+    )}
 
-      
-      <div className="error-box">
-          <p className="error-label">Error:</p>
-          <p className="error-text">{error}</p>
-      </div>
+    {summary && (
+        <div className="summary-result">
+            <p className="summary-label">Summary</p>
+            <p className="summary-text">{summary}</p>
+        </div>
+    )}
 
-
-      {
-
-        isLoading && (
-
-          <div>
-            <p>Loading...</p>
-          </div>
-        )
-      }
-
-      {
-        summary && (
-          <div>
-            <p>Summary:</p>
-            <p>{summary}</p>
-          </div>
-        )
-      }
-
-      {
-
-        error && (
-          <div>
-            <p>Error:</p>
-            <p>{error}</p>
-          </div>
-        )
-      }
+    {error && (
+        <div className="error-result">{error}</div>
+    )}
 
             
 

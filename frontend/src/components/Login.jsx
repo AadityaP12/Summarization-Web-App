@@ -1,4 +1,6 @@
 import { useState } from "react";
+import {auth} from "../firebase.js"
+import {createUserWithEmailAndPassword,signInWithEmailAndPassword} from "firebase/auth"
 import './Login.css';
 
 function LoginPage({onSuccess, userInfo, updateInfo}){
@@ -11,36 +13,64 @@ function LoginPage({onSuccess, userInfo, updateInfo}){
     onSuccess: handleLogin(),
     userInfo: {
 
-    username: "",
+    email: "",
     password:""
     
     }
     
     }*/
 
-
+    const [message,setMessage]=useState("");
+    const [error, setError]=useState("");
     
+    const [isRegistering, setIsRegistering]=useState(false);
 
-    const {username, password}= userInfo;
+    const {email, password}= userInfo;
 
     const handleChange=(e)=>{
 
         updateInfo({...userInfo, [e.target.name]: e.target.value})
     }
 
-    const handleSubmit=(e)=>{
+    const handleSubmit = async (e)=>{
 
-        e.preventDefault();
-        if(username && password){
-            onSuccess();
+        e.preventDefault(); 
+        if(isRegistering) {
+
+            try {
+
+                const userCredential= await createUserWithEmailAndPassword(auth,email,password);    
+                const user= userCredential.user;
+                const token= await user.getIdToken();
+                localStorage.setItem("token",token);
+                onSuccess();
+                setMessage("Registration Successful!");
+                
+            } catch (error) {
+
+                setError(error.message);
+                
+            }
+
         }
-        else{
-            alert("please fill in all fields!");
+        else {
+
+            try {
+            
+                const userCredential= await signInWithEmailAndPassword(auth,email,password);
+                const user=userCredential.user;
+                const token=await user.getIdToken();
+                localStorage.setItem("token",token);
+                onSuccess();
+                setMessage("Login Successful!");
+
+            } catch (error) {
+
+                setError(error.message);
+                
+            }
+
         }
-
-        
-        
-
         
     }
 
@@ -50,18 +80,18 @@ function LoginPage({onSuccess, userInfo, updateInfo}){
 
 
     return(
-        <div className="login-container glass-card">
+        <div className="login-container">
 
             <h1>Stop Scrolling, Start Understanding.</h1>
             <br/>
 
             <form onSubmit={handleSubmit} className="login-form">
                 <input
-                type="text"
-                name="username"
-                placeholder="Enter username"
+                type="email"
+                name="email"
+                placeholder="Enter email"
                 required={true}
-                value={username}
+                value={email}
                 onChange={handleChange}
                 className="login-input"
                 />
@@ -75,14 +105,17 @@ function LoginPage({onSuccess, userInfo, updateInfo}){
                 className="login-input"
                 />
                 <br/>
-                <button type="submit" className="login-button">Login</button>
+                <button type="submit" className="login-button">{isRegistering ? "Register":"Login"}</button>
             </form>
+
+            <p onClick={() => setIsRegistering(!isRegistering)} style={{textAlign:"center"}}>
+                {isRegistering? "Already have an account? Login" : "Don't have an account? Register"}
+            </p>
+            
+
             <br/>
-            {
-                /*<form onSubmit={handleGoogle}>
-                <button type="submit">Sign in with Google</button>
-            </form> */
-            }
+            {message && <p className="login-message">{message}</p>}
+            {error && <p className="login-error">{error}</p>}
         </div>
 
     )

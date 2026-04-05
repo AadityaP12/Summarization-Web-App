@@ -4,28 +4,41 @@ This is a learning project developed to strengthen my full-stack skills using th
 
 The app summarizes long text content where users can paste lengthy articles, documents, or any text and get concise summaries to understand the key points quickly.
 
+**Live Demo:** [prism-summarization.vercel.app](https://prism-summarization.vercel.app)
 
 ## Features
-- Text summarization using AI (Hugging Face BART model)
-- Summary history tracking
-- Clean and responsive interface
-- MongoDB integration for data persistence
+* Text summarization using AI (Hugging Face BART model)
+* User authentication via Firebase (register/login)
+* Rate limiting to prevent API abuse
+* Summary history tracking
+* Clean and responsive interface
+* MongoDB Atlas integration for data persistence
+
+## Tech Stack
+* Frontend: React.js with Vite
+* Backend: Node.js, Express.js
+* Database: MongoDB Atlas
+* Auth: Firebase Authentication
+* AI: Hugging Face (BART model)
+* Deployment: Vercel (frontend), Render (backend)
+
+## Architecture
+* MVC pattern on the backend (controllers, services, models, routes)
+* Backend services implemented as classes (OOP)
+* Firebase Admin SDK verifies tokens on the backend
 
 ## Clone this repository
 ```bash
-git clone https://github.com/AadityaP12/summarization-web-app.git
+git clone https://github.com/AadityaP12/Summarization-Web-App.git
 ```
 
 ## Setup Instructions
 
 ### Pre-requisites
-- Install Node.js and npm
-- Install and run MongoDB locally and add the MongoDB URI to the `.env` file as `MONGO_URI=your_mongo_uri`
-- Get a Hugging Face API key and add it to your `.env` file as `API_KEY=your_api_key`
-- Before running the backend, create a `.env` file in the root of your backend directory
-- You can use the provided `.env.example` as a reference
-- In cmd, run `cp .env.example .env` to copy the placeholders into your `.env` file
-- The backend port can be configured in the `.env` file using `PORT=5000`. If using a different port, update it accordingly
+* Install Node.js and npm
+* Create a MongoDB Atlas account and get your connection string
+* Get a Hugging Face API key
+* Create a Firebase project with Email/Password authentication enabled
 
 ### Backend Setup
 ```bash
@@ -34,6 +47,15 @@ npm install
 node server.js
 ```
 
+Create a `.env` file in the backend directory:
+```
+PORT=5000
+MONGO_URI=your_mongodb_atlas_connection_string
+API_KEY=your_huggingface_api_key
+```
+
+Add your Firebase service account key as `serviceAccountKey.json` in the backend root.
+
 ### Frontend Setup
 ```bash
 cd summarization-web-app/frontend
@@ -41,15 +63,10 @@ npm install
 npm run dev
 ```
 
-## Tech Stack
-- **Frontend**: React.js with Vite
-- **Backend**: Node.js, Express.js
-- **Database**: MongoDB
-- **API**: Hugging Face (BART model for summarization)
+Create a `.env` file in the frontend directory with your Firebase config values and backend URL.
 
 ## Usage
-1. Start both backend and frontend servers
-2. Navigate to the frontend URL (typically `http://localhost:5173`)
-3. Paste your text content in the text area
-4. Click "Simplify" to get your summary
-5. View your summary history from the welcome page
+1. Register or log in with your email and password
+2. Paste your text content in the text area
+3. Click "Simplify" to get your summary
+4. View your summary history from the welcome page

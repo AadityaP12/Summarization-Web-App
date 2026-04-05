@@ -79,9 +79,6 @@ function Summarize(){
 
       
       <textarea
-      
-      rows={20}
-      cols={80}
       placeholder="Paste your content here"
       value={text}
       onChange={(e)=> setText(e.target.value)} 

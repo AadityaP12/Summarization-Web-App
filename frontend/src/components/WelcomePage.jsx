@@ -69,7 +69,7 @@ function Welcome({onStart,userName}){
 
     return(
 
-        <div className="welcome-container">
+        <div className={showHistory && !showWelcome ? "history-wrapper":"welcome-container"}>
             {
                 showWelcome===true && (
 

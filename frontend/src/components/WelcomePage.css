@@ -84,6 +84,12 @@
   animation: spin 0.8s linear infinite;
 }
 
+.history-wrapper {
+    width: 100%;
+    max-width: 860px;
+    padding: 2rem 1rem;
+}
+
 @media (max-width: 480px) {
     .login-container,
     .welcome-container {

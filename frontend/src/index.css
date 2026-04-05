@@ -21,6 +21,9 @@
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
   --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
   --shadow-lg: 0 8px 32px rgba(0,0,0,0.10);
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
 }
 
 *, *::before, *::after {
@@ -52,13 +55,6 @@ body {
   padding: 2rem 1rem;
 }
 
-.app-container {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-}
 
 h1 {
   font-family: 'DM Serif Display', serif;

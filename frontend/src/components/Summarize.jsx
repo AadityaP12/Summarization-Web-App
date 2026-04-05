@@ -57,7 +57,7 @@ function Summarize(){
       
     } catch (error) {
 
-      if(error.name=== "AbortError"){
+      if(error.name === "AbortError"){
         setError("The request took too long. Please try again.");
       }
       else{

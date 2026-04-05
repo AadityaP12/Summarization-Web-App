@@ -1,8 +1,9 @@
 .history-container {
   width: 100%;
-  max-width: 760px;
+  max-width: 900px;
   margin: 0 auto;
   animation: fadeUp 0.4s ease both;
+  padding: 2rem;
 }
 
 .history-title {
